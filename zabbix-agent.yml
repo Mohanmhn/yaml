@@ -1,0 +1,95 @@
+---
+- name: "Play to install Zabbix agent on Servers "
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+  vars:
+    zabbix_server: "172.20.21.44"
+
+  tasks:
+    - name: Download Zabbix 4.0 deb file
+      get_url:
+        url="https://repo.zabbix.com/zabbix/4.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_4.0-21+xenial_all.deb"
+        dest="/tmp/zabbix-release_4.0-21.deb"
+
+
+    - name: Depackaging zabbix .deb file
+      apt: deb="/tmp/zabbix-release_4.0-21.deb"
+
+    - name: Updates apt cache
+      action: apt update_cache=true
+
+    - name: Apt install Zabbix agent
+      apt:
+       name: zabbix-agent
+       update_cache: yes
+
+
+    - lineinfile:
+       path: /etc/zabbix/zabbix_agentd.conf
+       regexp: '^Hostname=Zabbix server'
+       line: 'Hostname={{ ansible_hostname }}'
+       backrefs: yes
+
+    - lineinfile:
+       path: /etc/zabbix/zabbix_agentd.conf
+       regexp: '^Server=127.0.0.1'
+       line: 'Server={{ zabbix_server }}'
+       backrefs: yes
+
+    - name: Inserting "Userpatrameter" configuration  in zabbix_agentd.conf
+      blockinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        insertafter: '# User privilege specification'
+        block: |
+           UnsafeUserParameters=1
+           UserParameter=ntpoffset,ntpq -pn | awk 'BEGIN { offset=1000 } $1 ~ /^\*/ { offset=$9 } END { print offset }'
+           UserParameter=ntpsync,timedatectl status | grep -c 'NTP synchronized: yes'
+           UserParameter=ntpstatus,timedatectl status | grep -c 'NTP enabled: yes'
+
+
+    - name: Restarting zabbix service
+      service:
+       name: zabbix-agent
+       state: restarted
+       enabled: yes
+
+mohan@ip-10-0-4-145:/home/river/create-user/CD$ vi zabbix_ansible_sripts.yml
+      action: apt update_cache=true
+
+    - name: Apt install Zabbix agent
+      apt:
+       name: zabbix-agent
+       update_cache: yes
+
+
+    - lineinfile:
+       path: /etc/zabbix/zabbix_agentd.conf
+       regexp: '^Hostname=Zabbix server'
+       line: 'Hostname={{ ansible_hostname }}'
+       backrefs: yes
+
+    - lineinfile:
+       path: /etc/zabbix/zabbix_agentd.conf
+       regexp: '^Server=127.0.0.1'
+       line: 'Server={{ zabbix_server }}'
+       backrefs: yes
+
+    - name: Inserting "Userpatrameter" configuration  in zabbix_agentd.conf
+      blockinfile:
+        path: /etc/zabbix/zabbix_agentd.conf
+        insertafter: '# User privilege specification'
+        block: |
+           UnsafeUserParameters=1
+           UserParameter=ntpoffset,ntpq -pn | awk 'BEGIN { offset=1000 } $1 ~ /^\*/ { offset=$9 } END { print offset }'
+           UserParameter=ntpsync,timedatectl status | grep -c 'NTP synchronized: yes'
+           UserParameter=ntpstatus,timedatectl status | grep -c 'NTP enabled: yes'
+
+
+    - name: Restarting zabbix service
+      service:
+       name: zabbix-agent
+       state: restarted
+       enabled: yes
+
