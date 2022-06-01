@@ -1,0 +1,19 @@
+---
+- hosts: all
+  user: riveradmin
+  gather_facts: no
+  become: yes
+  become_method: "sudo"
+  tasks:
+  - name: Make temp install folder
+    command: mkdir falcon
+  - name: Copy falcon installer over
+    copy:
+      src: /home/river/falcon/falcon-sensor_6.32.0-12904_amd64.deb
+      dest: falcon/
+  - name: Install the CrowdStrike Package
+    shell: dpkg -i falcon/falcon-sensor_6.32.0-12904_amd64.deb
+  - name: Set the CID
+    shell: /opt/CrowdStrike/falconctl -s --cid=9392662E8B1046549100A6F4122B1AF5-9B
+  - name: Start the agent
+    shell: service falcon-sensor start

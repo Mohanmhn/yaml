@@ -1,0 +1,165 @@
+#All inforamtion
+'''import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+print(Myec2)'''
+ 
+#Instances information
+'''import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+for pythonins in Myec2['Reservations']:
+  print(pythonins)'''
+ 
+#Instance Id
+import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+for pythonins in Myec2['Reservations']:
+ for printout in pythonins['Instances']:
+  print(printout['InstanceId'])
+ 
+#Instance Type
+import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+for pythonins in Myec2['Reservations']:
+ for printout in pythonins['Instances']:
+  print(printout['InstanceId'])
+  print(printout['InstanceType'])
+Run Python Script
+
+We can see the instance ID & Instance Type
+
+[root@ip-172-31-6-132 pythonscripts]# python describe.py
+i-0a91d8aee3ab0061c
+t2.micro
+1
+2
+3
+[root@ip-172-31-6-132 pythonscripts]# python describe.py
+i-0a91d8aee3ab0061c
+t2.micro
+10. Script for getting Instance ID,Instance Type and Instance State
+Modify file “describe.py” and write script for getting Instance ID,Instance Type and Instance State.
+
+[root@ip-172-31-6-132 pythonscripts]# vim describe.py
+
+#All inforamtion
+'''import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+print(Myec2)'''
+
+#Instances information
+'''import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+ for pythonins in Myec2['Reservations']:
+  print(pythonins)'''
+
+#Instance Id
+import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+for pythonins in Myec2['Reservations']:
+ for printout in pythonins['Instances']:
+  print(printout['InstanceId'])
+
+#Instance Type
+import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+for pythonins in Myec2['Reservations']:
+ for printout in pythonins['Instances']:
+  print(printout['InstanceId'])
+  print(printout['InstanceType'])
+
+import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+ for pythonins in Myec2['Reservations']:
+  for printout in pythonins['Instances']:
+   print(printout['InstanceId'])
+   print(printout['InstanceType'])
+   print(printout['State']['Name'])
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+[root@ip-172-31-6-132 pythonscripts]# vim describe.py
+ 
+#All inforamtion
+'''import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+print(Myec2)'''
+ 
+#Instances information
+'''import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+ for pythonins in Myec2['Reservations']:
+  print(pythonins)'''
+ 
+#Instance Id
+import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+for pythonins in Myec2['Reservations']:
+ for printout in pythonins['Instances']:
+  print(printout['InstanceId'])
+ 
+#Instance Type
+import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+for pythonins in Myec2['Reservations']:
+ for printout in pythonins['Instances']:
+  print(printout['InstanceId'])
+  print(printout['InstanceType'])
+ 
+import boto3
+client = boto3.client('ec2')
+Myec2=client.describe_instances()
+ for pythonins in Myec2['Reservations']:
+  for printout in pythonins['Instances']:
+   print(printout['InstanceId'])
+   print(printout['InstanceType'])
+   print(printout['State']['Name'])
